@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %}
+List View
+{% endblock title %}
+
+{% block content %}
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name" style= "width:100%;">
+
+<table class="table table-boderless text-light" id = "myTable">
+    <thead class="border-bottom font-weight-bold">
+        <tr class = "header">
+            <th>Emp. Code</th>
+            <th>Full Name</th>
+            <th>Mobile</th>
+            <th>Position</th>
+            <th>
+            <a href="{% url 'form_view' %}" class="btn btn-outline-success"><i class="fas fa-plus">Add New</i></a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for employee in all_employee %}
+        
+        <tr>
+            <td>{{employee.emp_code}}</td>
+            <td>{{employee.full_name}}</td>
+            <td>{{employee.phone}}</td>
+            <td>{{employee.position}}</td>
+            
+            <td>
+                <a href="{% url 'edit_view' employee.pk %}" class="btn text-secondary px-0" title = "update"><i class="far fa-edit"></i></a>
+                <a href = "{% url 'delete_view' employee.pk %}" title = "delete"> <i class="fas fa-trash-alt fa-lg text-danger"></i></a>
+                <a href = "{% url 'detail_view' employee.pk %}" title = "details"> <i class="fas fa-user fa-lg text-success"></i></a>
+                
+            </td>
+            
+        
+        </tr>
+        
+
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}
+
+
+{% block js %}
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+
+function delFunction() {
+  confirm("Do you want to delete ??");
+}
+</script>
+{% endblock js %}
+
